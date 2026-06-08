@@ -1,0 +1,88 @@
+name: Static Site CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate HTML & Links
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install `html-validator` CLI
+        run: npm install -g html-validator@6
+
+      - name: Validate HTML files
+        run: |
+          set -euo pipefail
+          files=$(git ls-files '*.html' || true)
+          if [ -z "$files" ]; then
+            echo "No HTML files to validate"
+            exit 0
+          fi
+          for f in $files; do
+            echo "Validating $f"
+            html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
+          done
+
+      - name: Check for broken links (lychee)
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: "--recursive --exclude 'assets/**' --timeout 20"
+
+  build:
+    name: Prepare site artifact
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare `public` directory for Pages
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public
+          # Copy repository contents into public while preserving dotfiles
+          shopt -s dotglob || true
+          cp -R --preserve=mode,ownership,timestamps ./* public/ || true
+          cp -R --preserve=mode,ownership,timestamps ./.??* public/ || true || true
+          # Remove git metadata and workflow files from deploy artifact
+          rm -rf public/.git
+          rm -rf public/.github
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
