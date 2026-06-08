@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CGV — Mentora School</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:ital,wght@0,400;0,600;0,700;1,700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --teal: #1C6B5E;
+            --teal-dark: #154F45;
+            --teal-mid: #55A598;
+            --teal-pale: #EAF5F3;
+            --gold: #55A598;
+            --gold-light: #70B8AC;
+            --white: #FFFFFF;
+            --off-white: #F7F9F8;
+            --gray-100: #F0F4F2;
+            --gray-200: #D8E2DE;
+            --gray-400: #8FA89F;
+            --text-dark: #0E2420;
+            --text-mid: #2D4A43;
+            --text-light: #5E7A72;
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-xl: 36px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(21, 79, 69, 0.97);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            height: 64px;
+            padding: 0 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .nav-logo {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            color: var(--white);
+            text-decoration: none
+        }
+
+        .nav-logo em {
+            color: var(--gold);
+            font-style: normal
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color .2s;
+            position: relative
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+            transition: width .25s
+        }
+
+        .nav-links a:hover {
+            color: var(--white)
+        }
+
+        .nav-links a:hover::after {
+            width: 100%
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px
+        }
+
+        .btn-ghost-sm {
+            padding: 8px 18px;
+            border-radius: var(--r-sm);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            text-decoration: none;
+            transition: all .2s
+        }
+
+        .btn-gold-sm {
+            padding: 8px 20px;
+            border-radius: var(--r-sm);
+            background: linear-gradient(90deg, var(--teal), var(--teal-mid));
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            text-decoration: none;
+            transition: all .2s;
+            cursor: pointer
+        }
+
+        .btn-gold-sm:hover {
+            background: linear-gradient(90deg, var(--teal-mid), var(--teal));
+        }
+
+        /* ── PROGRESS BAR ── */
+        #pb {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1C6B5E, #55A598);
+            z-index: 9999;
+            width: 0;
+            border-radius: 0 2px 2px 0
+        }
+
+        /* ── HERO ── */
+        .lhero {
+            padding: 120px 5% 100px;
+            background: var(--teal-dark);
+            position: relative;
+            overflow: hidden
+        }
+
+        .lhero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 36px 36px
+        }
+
+        .lhero-glow {
+            position: absolute;
+            top: -200px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(85, 165, 152, 0.1) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .lhero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 90px;
+            background: var(--white);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0%, 0 100%)
+        }
+
+        .lhero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 780px
+        }
+
+        .lhero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(85, 165, 152, 0.15);
+            border: 1px solid rgba(85, 165, 152, 0.35);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 22px
+        }
+
+        .lhero-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(44px, 7vw, 80px);
+            font-weight: 900;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            line-height: .95;
+            margin-bottom: 18px
+        }
+
+        .lhero-sub {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.62);
+            line-height: 1.7;
+            max-width: 580px;
+            margin-bottom: 28px
+        }
+
+        .lhero-meta {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap
+        }
+
+        .lhero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5)
+        }
+
+        .lhero-meta-item strong {
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 600
+        }
+
+        /* ── LAYOUT ── */
+        .lpage {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 0;
+            min-height: 100vh
+        }
+
+        .lsidebar {
+            padding: 48px 0 48px 5%;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+            border-right: 1px solid var(--gray-200);
+            background: var(--off-white)
+        }
+
+        .lmain {
+            padding: 56px 5% 96px 4%
+        }
+
+        /* ── SIDEBAR ── */
+        .sidebar-label {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gray-400);
+            margin-bottom: 16px;
+            padding-left: 4px
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all .2s;
+            border-left: 3px solid transparent
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--teal-pale);
+            color: var(--teal);
+            border-left-color: var(--teal)
+        }
+
+        .sidebar-nav a.active {
+            background: var(--teal-pale);
+            color: var(--teal);
+            border-left-color: var(--gold);
+            font-weight: 600
+        }
+
+        .sidebar-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            color: var(--gold);
+            background: rgba(85, 165, 152, 0.15);
+            border-radius: 4px;
+            padding: 1px 6px;
+            flex-shrink: 0
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: var(--gray-200);
+            margin: 20px 0
+        }
+
+        .sidebar-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: var(--r-sm);
+            font-size: 13px;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all .2s;
+            margin-bottom: 16px
+        }
+
+        .sidebar-back:hover {
+            background: var(--teal-pale);
+            color: var(--teal)
+        }
+
+        /* ── ARTICLES ── */
+        .article {
+            padding: 48px 0;
+            border-bottom: 1px solid var(--gray-200);
+            scroll-margin-top: 80px
+        }
+
+        .article:last-child {
+            border-bottom: none
+        }
+
+        .art-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 24px
+        }
+
+        .art-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 13px;
+            font-weight: 900;
+            color: var(--white);
+            background: var(--teal);
+            border-radius: 8px;
+            padding: 4px 10px;
+            letter-spacing: 0.06em;
+            flex-shrink: 0;
+            margin-top: 5px
+        }
+
+        .art-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--teal);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.1
+        }
+
+        .article p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 14px
+        }
+
+        .article p:last-child {
+            margin-bottom: 0
+        }
+
+        .article p strong {
+            color: var(--text-mid);
+            font-weight: 600
+        }
+
+        .article ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 16px 0
+        }
+
+        .article ul li {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px
+        }
+
+        .article ul li::before {
+            content: '';
+            flex-shrink: 0;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--gold);
+            margin-top: 8px
+        }
+
+        /* BOXES */
+        .hl-box {
+            background: var(--teal-pale);
+            border-left: 4px solid var(--gold);
+            border-radius: 0 12px 12px 0;
+            padding: 18px 22px;
+            margin: 20px 0
+        }
+
+        .hl-box p {
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.65;
+            margin: 0
+        }
+
+        .hl-box p strong {
+            color: var(--teal)
+        }
+
+        .info-box {
+            background: var(--teal-dark);
+            border-radius: var(--r-md);
+            padding: 20px 24px;
+            margin: 20px 0
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.65;
+            margin: 0
+        }
+
+        .info-box p strong {
+            color: var(--gold)
+        }
+
+        /* TABLE */
+        .pt {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 22px 0;
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        .pt th {
+            background: var(--teal);
+            color: var(--white);
+            padding: 13px 18px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            text-align: left
+        }
+
+        .pt td {
+            padding: 12px 18px;
+            font-size: 14px;
+            color: var(--text-mid);
+            border-bottom: 1px solid var(--gray-200)
+        }
+
+        .pt tr:last-child td {
+            border-bottom: none
+        }
+
+        .pt tr:nth-child(even) td {
+            background: var(--off-white)
+        }
+
+        .pb {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(85, 165, 152, 0.15);
+            color: var(--teal);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 6px
+        }
+
+        /* GRIDS */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 20px 0
+        }
+
+        .data-card {
+            background: var(--off-white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--r-md);
+            padding: 20px;
+            transition: all .25s
+        }
+
+        .data-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(28, 107, 94, 0.1)
+        }
+
+        .dc-icon {
+            font-size: 24px;
+            margin-bottom: 10px
+        }
+
+        .dc-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 6px
+        }
+
+        .dc-text {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.55
+        }
+
+        .rights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 20px 0
+        }
+
+        .right-card {
+            background: var(--teal-dark);
+            border-radius: var(--r-md);
+            padding: 20px;
+            text-align: center;
+            transition: transform .25s
+        }
+
+        .right-card:hover {
+            transform: translateY(-3px)
+        }
+
+        .ri {
+            font-size: 26px;
+            margin-bottom: 8px
+        }
+
+        .rt {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--white);
+            text-transform: uppercase;
+            margin-bottom: 4px
+        }
+
+        .rd {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.55);
+            line-height: 1.5
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0
+        }
+
+        .ic {
+            background: var(--off-white);
+            border: 1px solid var(--gray-200);
+            border-radius: var(--r-lg);
+            padding: 24px
+        }
+
+        .ic-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--teal);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--teal-pale)
+        }
+
+        .ic p,
+        .ic li {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 4px
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeRight {
+            from {
+                opacity: 0;
+                transform: translateX(-40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(.92)
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1)
+            }
+        }
+
+        .anim-up {
+            opacity: 0;
+            animation: none
+        }
+
+        .anim-up.go {
+            animation: fadeUp .8s cubic-bezier(.22, 1, .36, 1) forwards
+        }
+
+        .anim-right {
+            opacity: 0;
+            animation: none
+        }
+
+        .anim-right.go {
+            animation: fadeRight .8s cubic-bezier(.22, 1, .36, 1) forwards
+        }
+
+        .anim-scale {
+            opacity: 0;
+            animation: none
+        }
+
+        .anim-scale.go {
+            animation: scaleIn .7s cubic-bezier(.22, 1, .36, 1) forwards
+        }
+
+        .delay-1 {
+            animation-delay: .1s
+        }
+
+        .delay-2 {
+            animation-delay: .2s
+        }
+
+        .delay-3 {
+            animation-delay: .32s
+        }
+
+        .delay-4 {
+            animation-delay: .44s
+        }
+
+        .delay-5 {
+            animation-delay: .56s
+        }
+
+        .delay-6 {
+            animation-delay: .68s
+        }
+
+        /* HERO ANIMS */
+        .lhero-badge {
+            animation: fadeUp .7s cubic-bezier(.22, 1, .36, 1) .1s both
+        }
+
+        .lhero-title {
+            animation: fadeUp .9s cubic-bezier(.22, 1, .36, 1) .22s both
+        }
+
+        .lhero-sub {
+            animation: fadeUp .8s cubic-bezier(.22, 1, .36, 1) .36s both
+        }
+
+        .lhero-meta {
+            animation: fadeUp .7s cubic-bezier(.22, 1, .36, 1) .5s both
+        }
+
+        /* BACK TOP */
+        .back-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(21, 79, 69, 0.3);
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all .3s;
+            z-index: 100
+        }
+
+        .back-top.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .back-top:hover {
+            background: var(--teal-mid);
+            transform: translateY(-2px)
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--teal-dark);
+            padding: 48px 5% 28px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06)
+        }
+
+        .ft-top {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 36px
+        }
+
+        .ft-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: 0.06em;
+            margin-bottom: 8px
+        }
+
+        .ft-brand em {
+            color: var(--gold);
+            font-style: normal
+        }
+
+        .ft-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.38);
+            line-height: 1.6;
+            max-width: 220px
+        }
+
+        .ft-col-t {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.38);
+            margin-bottom: 14px
+        }
+
+        .ft-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 9px
+        }
+
+        .ft-col ul a {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.52);
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .ft-col ul a:hover {
+            color: var(--white)
+        }
+
+        .ft-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 22px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+
+        .ft-bottom p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.24)
+        }
+
+        .ft-incub {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.28)
+        }
+
+        .ft-incub strong {
+            color: var(--gold)
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:1024px) {
+            .lpage {
+                grid-template-columns: 1fr
+            }
+
+            .lsidebar {
+                position: static;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--gray-200);
+                padding: 28px 5%;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                align-items: center
+            }
+
+            .sidebar-label,
+            .sidebar-divider,
+            .sidebar-back {
+                display: none
+            }
+
+            .sidebar-nav {
+                flex-direction: row;
+                flex-wrap: wrap
+            }
+
+            .sidebar-nav a {
+                padding: 7px 12px;
+                border-left: none;
+                border-bottom: 3px solid transparent
+            }
+
+            .sidebar-nav a:hover,
+            .sidebar-nav a.active {
+                border-bottom-color: var(--gold);
+                border-left-color: transparent
+            }
+
+            .lmain {
+                padding: 40px 5% 72px
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .ft-top {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:640px) {
+            .nav-links {
+                display: none
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr
+            }
+
+            .rights-grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .ft-top {
+                grid-template-columns: 1fr
+            }
+        }
+
+        .nav-logo-img {
+            height: 38px;
+            width: auto;
+            display: block;
+            filter: brightness(1.1);
+            transition: opacity .2s;
+        }
+
+        .nav-logo-img:hover {
+            opacity: .85;
+        }
+    </style>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body>
+    <div id="pb"></div>
+    <nav id="sitenav">
+        <a href="index.html" class="nav-logo"><img
+                src="assets/images/logo.png"
+                alt="Mentora School" class="nav-logo-img"></a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">À propos</a></li>
+            <li><a href="index.html#solution">Solution</a></li>
+            <li><a href="index.html#features">Fonctionnalités</a></li>
+            <li><a href="index.html#pricing">Tarifs</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="#" class="btn-ghost-sm">Connexion</a>
+            <a href="#" class="btn-gold-sm">Démo gratuite</a>
+        </div>
+    </nav>
+
+    <section class="lhero">
+        <div class="lhero-grid"></div>
+        <div class="lhero-glow"></div>
+        <div class="lhero-inner">
+            <div class="lhero-badge">📋 Document contractuel officiel</div>
+            <h1 class="lhero-title">Conditions<br>Générales de Vente</h1>
+            <p class="lhero-sub">Les présentes CGV régissent les relations contractuelles entre Mentora School et tout
+                établissement d'enseignement souscrivant à nos solutions SaaS de gestion scolaire intelligente.</p>
+            <div class="lhero-meta">
+                <div class="lhero-meta-item">📅 <strong>Version 2025</strong></div>
+                <div class="lhero-meta-item">⚖️ <strong>Droit Marocain</strong></div>
+                <div class="lhero-meta-item">🏛️ <strong>Tribunaux de Commerce</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lpage">
+        <!-- SIDEBAR -->
+        <aside class="lsidebar">
+            <a href="index.html" class="sidebar-back">← Retour au site</a>
+            <div class="sidebar-divider"></div>
+            <div class="sidebar-label">Articles</div>
+            <ul class="sidebar-nav">
+                <li><a href="#art1" class="active"><span class="sidebar-num">01</span>Objet</a></li>
+                <li><a href="#art2"><span class="sidebar-num">02</span>Services</a></li>
+                <li><a href="#art3"><span class="sidebar-num">03</span>Tarification</a></li>
+                <li><a href="#art4"><span class="sidebar-num">04</span>Durée</a></li>
+                <li><a href="#art5"><span class="sidebar-num">05</span>Propriété</a></li>
+                <li><a href="#art6"><span class="sidebar-num">06</span>Juridiction</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="lmain">
+
+            <div class="article" id="art1">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 01</span>
+                    <h2 class="art-title">Objet et Champ d'Application</h2>
+                </div>
+                <p class="anim-up delay-1">Les présentes Conditions Générales de Vente (CGV) régissent de plein droit
+                    les relations contractuelles entre la plateforme <strong>Mentora School</strong> (ci-après
+                    "l'Éditeur") et tout établissement d'enseignement public ou privé (ci-après "l'Établissement")
+                    souscrivant aux solutions applicatives de gestion scolaire au format <strong>SaaS</strong>.</p>
+                <p class="anim-up delay-2">Toute souscription aux services de Mentora School implique l'acceptation
+                    pleine et entière des présentes CGV. Ces conditions prévalent sur tout autre document émanant de
+                    l'Établissement.</p>
+                <div class="hl-box anim-up delay-3">
+                    <p><strong>Soutenu et incubé par HB Development</strong> — Solution pensée pour le système éducatif
+                        marocain, du primaire au baccalauréat, avec présence internationale croissante.</p>
+                </div>
+            </div>
+
+            <div class="article" id="art2">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 02</span>
+                    <h2 class="art-title">Description des Services et Continuité Applicative</h2>
+                </div>
+                <p class="anim-up delay-1">Mentora School fournit une solution de gestion scolaire modulaire déclinée en
+                    trois offres. L'Éditeur s'engage à mettre en œuvre les moyens techniques nécessaires pour garantir
+                    la continuité du service.</p>
+                <table class="pt anim-scale delay-2">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Tarif</th>
+                            <th>Positionnement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="pb">STARTER</span></td>
+                            <td><strong>50 DH / élève / an</strong></td>
+                            <td>L'essentiel de la gestion</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pb">PRO</span></td>
+                            <td><strong>99 DH / élève / an</strong></td>
+                            <td>L'intelligence pédagogique</td>
+                        </tr>
+                        <tr>
+                            <td><span class="pb">ELITE</span></td>
+                            <td><strong>149 DH / élève / an</strong></td>
+                            <td>L'écosystème de pointe</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="info-box anim-up delay-3">
+                    <p>🔌 <strong>Mode Hors-Ligne exclusif :</strong> L'Établissement reconnaît que l'application
+                        desktop incluant un mode offline constitue une mesure de résilience technique majeure. La
+                        responsabilité de l'Éditeur ne saurait être engagée en cas de retard de synchronisation dû à une
+                        défaillance du matériel de connexion de l'Établissement.</p>
+                </div>
+            </div>
+
+            <div class="article" id="art3">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 03</span>
+                    <h2 class="art-title">Tarification, Facturation et Paiement</h2>
+                </div>
+                <p class="anim-up delay-1">Les tarifs applicables sont ceux en vigueur au jour de la signature du bon de
+                    commande, calculés sur une <strong>base annuelle par élève inscrit</strong>. Les prix sont exprimés
+                    en <strong>Dirhams Marocains (MAD)</strong> toutes taxes comprises.</p>
+                <ul class="anim-up delay-2">
+                    <li>La facturation est émise dès la validation de la souscription.</li>
+                    <li>Règlement par virement bancaire, chèque ou services de paiement électronique autorisés au Maroc.
+                    </li>
+                    <li>Tout défaut de paiement peut entraîner, après mise en demeure sous <strong>15 jours</strong>, la
+                        suspension temporaire des accès.</li>
+                </ul>
+                <div class="hl-box anim-up delay-3">
+                    <p>🏆 <strong>Avantage Partenaire Exclusif :</strong> Les établissements affiliés bénéficient d'une
+                        réduction de <strong>-40%</strong> sur les packs "Mentora Soutien" pour l'accompagnement
+                        individualisé des élèves.</p>
+                </div>
+            </div>
+
+            <div class="article" id="art4">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 04</span>
+                    <h2 class="art-title">Durée, Renouvellement et Résiliation</h2>
+                </div>
+                <p class="anim-up delay-1">Le contrat est conclu pour une durée initiale d'<strong>une (1) année
+                        scolaire complète</strong>. Il se renouvelle par tacite reconduction pour des périodes
+                    successives d'un an, sauf dénonciation écrite par lettre recommandée au moins <strong>deux (2)
+                        mois</strong> avant la clôture de l'année scolaire.</p>
+                <p class="anim-up delay-2">En cas de résiliation, les données sont conservées <strong>30 jours</strong>
+                    après la date d'effet, au-delà desquels elles sont définitivement supprimées des serveurs de
+                    l'Éditeur.</p>
+            </div>
+
+            <div class="article" id="art5">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 05</span>
+                    <h2 class="art-title">Propriété Intellectuelle et Droits d'Usage</h2>
+                </div>
+                <p class="anim-up delay-1">L'ensemble des logiciels, codes sources, architectures graphiques, logos,
+                    algorithmes d'IA et applications desktop liés à Mentora School demeurent la <strong>propriété
+                        exclusive de l'Éditeur</strong>. Il est consenti à l'Établissement un droit d'usage personnel,
+                    non exclusif et non transférable.</p>
+                <div class="info-box anim-up delay-2">
+                    <p>🚫 <strong>Interdictions strictes :</strong> Toute reproduction, modification, distribution ou
+                        tentative d'ingénierie inverse des composants de la plateforme est strictement interdite et
+                        constitue une violation des droits de propriété intellectuelle susceptible de poursuites
+                        judiciaires.</p>
+                </div>
+            </div>
+
+            <div class="article" id="art6">
+                <div class="art-header anim-right">
+                    <span class="art-num">ART. 06</span>
+                    <h2 class="art-title">Droit Applicable et Juridiction</h2>
+                </div>
+                <p class="anim-up delay-1">Les présentes CGV sont soumises à la <strong>législation du Royaume du
+                        Maroc</strong>. En cas de litige, après échec de toute tentative de conciliation amiable, les
+                    <strong>Tribunaux de Commerce du Maroc</strong> seront seuls compétents.</p>
+                <div class="hl-box anim-up delay-2">
+                    <p>Mentora School · Soutenu et incubé par <strong>HB Development</strong> · Version 2025 · Contact :
+                        Contact@mentoragroupe.com</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer>
+        <div class="ft-top">
+            <div>
+                <a href="index.html"><img
+                        src="assets/images/logo.png"
+                        alt="Mentora School"
+                        style="height:36px;width:auto;filter:brightness(1.2);display:block;margin-bottom:6px"></a>
+                <p class="ft-desc">Un écosystème éducatif intelligent, intégré et résilient pour les établissements
+                    scolaires.</p>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Plateforme</div>
+                <ul>
+                    <li><a href="index.html#about">Administration</a></li>
+                    <li><a href="index.html#about">Enseignants</a></li>
+                    <li><a href="index.html#about">Parents & Élèves</a></li>
+                    <li><a href="index.html#pricing">Tarifs</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Ressources</div>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Support technique</a></li>
+                    <li><a href="#">Démo gratuite</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Légal</div>
+                <ul>
+                    <li><a href="cgv.html">CGV</a></li>
+                    <li><a href="data-protection.html">Protection des données</a></li>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="ft-bottom">
+            <p>© 2025 Mentora School · Tribunaux de Commerce du Maroc · Loi n° 09-08</p>
+            <div class="ft-incub">Soutenu & incubé par <strong>HB DEVELOPMENT</strong></div>
+        </div>
+    </footer>
+    <button class="back-top" id="bt">↑</button>
+    <script>
+        // Progress bar
+        const pb = document.getElementById('pb');
+        const bt = document.getElementById('bt');
+        window.addEventListener('scroll', () => {
+            const s = window.scrollY, m = document.documentElement.scrollHeight - window.innerHeight;
+            pb.style.width = (s / m * 100) + '%';
+            bt.classList.toggle('show', s > 300);
+            // Active sidebar link
+            document.querySelectorAll('.article').forEach(art => {
+                const rect = art.getBoundingClientRect();
+                if (rect.top <= 120 && rect.bottom >= 120) {
+                    document.querySelectorAll('.sidebar-nav a').forEach(a => a.classList.remove('active'));
+                    const link = document.querySelector('.sidebar-nav a[href="#' + art.id + '"]');
+                    if (link) link.classList.add('active');
+                }
+            });
+        }, { passive: true });
+
+        // Nav shadow
+        const nav = document.getElementById('sitenav');
+        window.addEventListener('scroll', () => {
+            nav.style.boxShadow = window.scrollY > 50 ? '0 2px 24px rgba(0,0,0,0.22)' : 'none';
+        }, { passive: true });
+
+        // Back to top
+        bt.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Smooth anchors
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const t = document.querySelector(a.getAttribute('href'));
+                if (!t) return; e.preventDefault();
+                t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // ── SCROLL ANIMATIONS ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('go');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.anim-up, .anim-right, .anim-scale').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
