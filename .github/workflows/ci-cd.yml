@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Validate HTML files
+      - name: Validate HTML files (using npx html-validator)
         run: |
           set -euo pipefail
           files=$(git ls-files '*.html' || true)
@@ -40,7 +40,8 @@ jobs:
           fi
           for f in $files; do
             echo "Validating $f"
-            npx --yes html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
+            # Use npx to avoid global npm install issues on the runner
+            npx --yes html-validator@6 --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
           done
 
       - name: Check for broken links (lychee)
