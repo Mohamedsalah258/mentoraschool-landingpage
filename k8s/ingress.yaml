@@ -10,11 +10,11 @@ metadata:
 spec:
   tls:
     - hosts:
-        - www.mentoraschool.com
-        - school.mentoragroupe.com
-      secretName: mentoraschool-tls
+        - mentoraschool.online
+        - www.mentoraschool.online
+      secretName: mentoraschool-online-tls
   rules:
-    - host: www.mentoraschool.com
+    - host: mentoraschool.online
       http:
         paths:
           - path: /
@@ -24,7 +24,7 @@ spec:
                 name: mentoraschool-landingpage-svc
                 port:
                   number: 80
-    - host: school.mentoragroupe.com
+    - host: www.mentoraschool.online
       http:
         paths:
           - path: /
