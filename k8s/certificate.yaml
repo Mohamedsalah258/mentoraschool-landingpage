@@ -3,10 +3,10 @@ kind: Certificate
 metadata:
   name: mentoraschool-tls-cert
 spec:
-  secretName: mentoraschool-tls
+  secretName: mentoraschool-online-tls
   dnsNames:
-    - www.mentoraschool.com
-    - school.mentoragroupe.com
+    - mentoraschool.online
+    - www.mentoraschool.online
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
