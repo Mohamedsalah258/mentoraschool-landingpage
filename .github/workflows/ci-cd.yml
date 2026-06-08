@@ -30,9 +30,6 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install `html-validator` CLI
-        run: npm install -g html-validator@6
-
       - name: Validate HTML files
         run: |
           set -euo pipefail
@@ -43,7 +40,7 @@ jobs:
           fi
           for f in $files; do
             echo "Validating $f"
-            html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
+            npx --yes html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
           done
 
       - name: Check for broken links (lychee)
