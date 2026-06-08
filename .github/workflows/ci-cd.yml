@@ -152,7 +152,8 @@ jobs:
           kubectl -n "${K8S_NAMESPACE}" apply -f k8s/serviceaccount.yaml
           kubectl -n "${K8S_NAMESPACE}" apply -f k8s/role.yaml
           # Replace namespace placeholder in rolebinding and apply
-          sed "s|${NAMESPACE_PLACEHOLDER}|${K8S_NAMESPACE}|g" k8s/rolebinding.yaml | kubectl apply -f -
+          # Replace the literal placeholder string '${NAMESPACE_PLACEHOLDER}' with the target namespace
+          sed "s|\${NAMESPACE_PLACEHOLDER}|${K8S_NAMESPACE}|g" k8s/rolebinding.yaml | kubectl apply -f -
 
       - name: Create or update GHCR imagePullSecret
         env:
