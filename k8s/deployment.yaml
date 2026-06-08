@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mentoraschool-landingpage
+  labels:
+    app: mentoraschool-landingpage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mentoraschool-landingpage
+  template:
+    metadata:
+      labels:
+        app: mentoraschool-landingpage
+    spec:
+      containers:
+        - name: mentoraschool-landingpage
+          image: REPLACE_IMAGE
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      imagePullSecrets:
+        - name: ghcr-secret
