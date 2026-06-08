@@ -146,6 +146,14 @@ jobs:
         run: |
           kubectl create namespace "${K8S_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
 
+      - name: Apply ServiceAccount, Role and RoleBinding
+        run: |
+          # Apply serviceaccount and role
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/serviceaccount.yaml
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/role.yaml
+          # Replace namespace placeholder in rolebinding and apply
+          sed "s|${NAMESPACE_PLACEHOLDER}|${K8S_NAMESPACE}|g" k8s/rolebinding.yaml | kubectl apply -f -
+
       - name: Create or update GHCR imagePullSecret
         env:
           GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
@@ -170,3 +178,13 @@ jobs:
           # Replace placeholder in deployment manifest and apply
           sed "s|REPLACE_IMAGE|${IMAGE}|g" k8s/deployment.yaml | kubectl -n "${K8S_NAMESPACE}" apply -f -
           kubectl -n "${K8S_NAMESPACE}" apply -f k8s/service.yaml
+          # Apply Certificate and Ingress for TLS
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/certificate.yaml
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/ingress.yaml
+
+      - name: Wait for Deployment rollout and Certificate issuance
+        run: |
+          # Wait for deployment rollout
+          kubectl -n "${K8S_NAMESPACE}" rollout status deployment/mentoraschool-landingpage --timeout=120s || kubectl -n "${K8S_NAMESPACE}" get pods -o wide
+          # Wait for cert-manager to mark Certificate ready
+          kubectl -n "${K8S_NAMESPACE}" wait --for=condition=ready certificate/mentoraschool-tls-cert --timeout=300s || kubectl -n "${K8S_NAMESPACE}" describe certificate mentoraschool-tls-cert
