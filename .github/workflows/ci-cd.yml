@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -30,7 +30,7 @@ jobs:
         with:
           node-version: '18'
 
-      # - name: Validate HTML files (using npx html-validator)
+      # - name: Validate HTML files
       #   run: |
       #     set -euo pipefail
       #     files=$(git ls-files '*.html' || true)
@@ -40,8 +40,7 @@ jobs:
       #     fi
       #     for f in $files; do
       #       echo "Validating $f"
-      #       # Use npx to avoid global npm install issues on the runner
-      #       npx --yes html-validator@6 --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
+      #       npx --yes html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
       #     done
 
       - name: Check for broken links (lychee)
@@ -71,16 +70,26 @@ jobs:
           rm -rf public/.git
           rm -rf public/.github
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
+      - name: Upload site artifact (avoid deprecated upload-pages-artifact)
+        uses: actions/upload-artifact@v4
         with:
+          name: public
           path: public
 
   deploy:
-    name: Deploy to GitHub Pages
+    name: Deploy to GitHub Pages (via gh-pages branch)
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: public
+          path: public
+
+      - name: Deploy to `gh-pages` branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
