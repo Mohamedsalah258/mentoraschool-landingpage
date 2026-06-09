@@ -2606,7 +2606,7 @@
             }
         }
 
-        @media(max-width:700px) {
+        @media(max-width:991px) {
             nav {
                 padding: 0 4%
             }
@@ -2614,6 +2614,9 @@
             .nav-links {
                 display: none
             }
+        }
+
+        @media(max-width:700px) {
 
             .hero-title {
                 font-size: 46px
@@ -2668,6 +2671,144 @@
         .nav-logo-img:hover {
             opacity: .85;
         }
+
+        /* ── Mobile Menu Toggle Button ── */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* ── Mobile Drawer Overlay ── */
+        .mobile-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(14, 36, 32, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .mobile-drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ── Mobile Drawer ── */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(21, 79, 69, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .mobile-drawer.active {
+            right: 0;
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 20px;
+        }
+
+        .drawer-logo img {
+            height: 48px;
+            width: auto;
+        }
+
+        .drawer-close {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 36px;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .drawer-close:hover {
+            color: var(--gold);
+        }
+
+        .drawer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .drawer-links a {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.25s, padding-left 0.25s;
+            display: block;
+        }
+
+        .drawer-links a:hover {
+            color: var(--gold);
+            padding-left: 8px;
+        }
+
+        .drawer-actions {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+        }
+
+        body.drawer-open {
+            overflow: hidden;
+        }
+
+        @media(max-width:991px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+        }
     </style>
     <link rel="icon" type="image/png" href="assets/images/logo.png">
 </head>
@@ -2690,10 +2831,33 @@
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="nav-actions">
-            <a href="#" class="btn-ghost-sm">Connexion</a>
-            <a href="https://school.mentoragroupe.com/auth/login" class="btn-gold-sm">Se connecter</a>
+            <a href="https://school.mentoragroupe.com/auth/login" class="btn-gold-sm">Connexion</a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-header">
+            <a href="#" class="drawer-logo"><img src="assets/images/logo.png" alt="Mentora School" class="nav-logo-img"></a>
+            <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+        </div>
+        <ul class="drawer-links">
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#features">Fonctionnalités</a></li>
+            <li><a href="#pricing">Tarifs</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="drawer-actions">
+            <a href="https://school.mentoragroupe.com/auth/login" class="btn-gold-sm" style="display: block; text-align: center;">Connexion</a>
+        </div>
+    </div>
 
     <!-- HERO -->
     <section class="hero">
@@ -3678,6 +3842,44 @@
             preloader.style.transform = 'scale(1.04)';
             setTimeout(() => preloader.remove(), 400);
         }, 700);
+
+        /* ── 16. Mobile Menu & Drawer Toggles ── */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+        const mobileDrawerOverlay = document.getElementById('mobile-drawer-overlay');
+        const drawerClose = document.getElementById('drawer-close');
+        const drawerLinks = document.querySelectorAll('.drawer-links a');
+
+        function toggleDrawer() {
+            const isOpen = mobileDrawer.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active', isOpen);
+            mobileDrawerOverlay.classList.toggle('active', isOpen);
+            document.body.classList.toggle('drawer-open', isOpen);
+        }
+
+        function closeDrawer() {
+            mobileDrawer.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            mobileDrawerOverlay.classList.remove('active');
+            document.body.classList.remove('drawer-open');
+        }
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', toggleDrawer);
+        }
+        if (drawerClose) {
+            drawerClose.addEventListener('click', closeDrawer);
+        }
+        if (mobileDrawerOverlay) {
+            mobileDrawerOverlay.addEventListener('click', closeDrawer);
+        }
+
+        // Close drawer when a link is clicked
+        drawerLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                closeDrawer();
+            });
+        });
     </script>
 </body>
 
