@@ -1,0 +1,191 @@
+name: Static Site CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  packages: write
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate HTML & Links
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # - name: Validate HTML files
+      #   run: |
+      #     set -euo pipefail
+      #     files=$(git ls-files '*.html' || true)
+      #     if [ -z "$files" ]; then
+      #       echo "No HTML files to validate"
+      #       exit 0
+      #     fi
+      #     for f in $files; do
+      #       echo "Validating $f"
+      #       npx --yes html-validator --file="$f" --verbose || (echo "HTML validation failed for $f" && exit 1)
+      #     done
+
+      - name: Check for broken links (lychee)
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: "--recursive --exclude 'assets/**' --timeout 20"
+
+  build:
+    name: Prepare site artifact
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare `public` directory for Pages
+        run: |
+          set -euo pipefail
+          rm -rf public
+          mkdir -p public
+          # Copy repository contents into public while preserving dotfiles
+          shopt -s dotglob || true
+          cp -R --preserve=mode,ownership,timestamps ./* public/ || true
+          cp -R --preserve=mode,ownership,timestamps ./.??* public/ || true || true
+          # Remove git metadata and workflow files from deploy artifact
+          rm -rf public/.git
+          rm -rf public/.github
+
+      - name: Upload site artifact (avoid deprecated upload-pages-artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: public
+          path: public
+
+  deploy:
+    name: Deploy to GitHub Pages (via gh-pages branch)
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: public
+          path: public
+
+      - name: Deploy to `gh-pages` branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: public
+  container_build:
+    name: Build & Push Docker image
+    needs: validate
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      image: ${{ steps.set-image.outputs.image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: |
+            ghcr.io/mohamedsalah258/mentoraschool-landingpage:${{ github.sha }}
+            ghcr.io/mohamedsalah258/mentoraschool-landingpage:latest
+
+      - name: Set image output
+        id: set-image
+        run: |
+          echo "image=ghcr.io/mohamedsalah258/mentoraschool-landingpage:${GITHUB_SHA}" >> $GITHUB_OUTPUT
+
+  k8s_deploy:
+    name: Deploy to Kubernetes
+    needs: container_build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG_BASE64 }}" | base64 -d > ~/.kube/config
+          chmod 600 ~/.kube/config
+
+      - name: Ensure namespace exists
+        run: |
+          kubectl create namespace "${K8S_NAMESPACE}" --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply ServiceAccount, Role and RoleBinding
+        run: |
+          # Apply serviceaccount and role
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/serviceaccount.yaml
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/role.yaml
+          # Replace namespace placeholder in rolebinding and apply
+          # Replace the literal placeholder string '${NAMESPACE_PLACEHOLDER}' with the target namespace
+          sed "s|\${NAMESPACE_PLACEHOLDER}|${K8S_NAMESPACE}|g" k8s/rolebinding.yaml | kubectl apply -f -
+
+      - name: Create or update GHCR imagePullSecret
+        env:
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_PAT: ${{ secrets.GHCR_PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Prefer explicit GHCR credentials if provided, otherwise fall back to GITHUB_TOKEN
+          GHCR_USER="${GHCR_USERNAME:-$GITHUB_ACTOR}"
+          GHCR_TOKEN="${GHCR_PAT:-$GITHUB_TOKEN}"
+          echo "Using GHCR user: ${GHCR_USER}"
+          kubectl -n "${K8S_NAMESPACE}" create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username="${GHCR_USER}" \
+            --docker-password="${GHCR_TOKEN}" \
+            --docker-email=action@github.com \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Apply Kubernetes manifests (replace image)
+        run: |
+          IMAGE="${{ needs.container_build.outputs.image }}"
+          echo "Deploying image: ${IMAGE} to namespace ${K8S_NAMESPACE}"
+          # Replace placeholder in deployment manifest and apply
+          sed "s|REPLACE_IMAGE|${IMAGE}|g" k8s/deployment.yaml | kubectl -n "${K8S_NAMESPACE}" apply -f -
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/service.yaml
+          # Apply Certificate and Ingress for TLS
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/certificate.yaml
+          kubectl -n "${K8S_NAMESPACE}" apply -f k8s/ingress.yaml
+
+      - name: Wait for Deployment rollout and Certificate issuance
+        run: |
+          # Wait for deployment rollout
+          kubectl -n "${K8S_NAMESPACE}" rollout status deployment/mentoraschool-landingpage --timeout=120s || kubectl -n "${K8S_NAMESPACE}" get pods -o wide
+          # Wait for cert-manager to mark Certificate ready
+          kubectl -n "${K8S_NAMESPACE}" wait --for=condition=ready certificate/mentoraschool-tls-cert --timeout=300s || kubectl -n "${K8S_NAMESPACE}" describe certificate mentoraschool-tls-cert

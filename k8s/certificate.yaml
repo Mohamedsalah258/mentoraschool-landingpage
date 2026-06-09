@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mentoraschool-tls-cert
+spec:
+  secretName: mentoraschool-online-tls
+  dnsNames:
+    - mentoraschool.online
+    - www.mentoraschool.online
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+# Note: If you are testing, use a staging issuer (e.g. letsencrypt-staging) to avoid rate limits.
