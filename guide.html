@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Vidéo — Mentora School</title>
+    <meta name="description" content="Découvrez Mentora School en vidéo : vue d'ensemble, administration, enseignants, parents et élèves — tout l'écosystème expliqué en quelques minutes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Barlow:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --teal: #1C6B5E;
+            --teal-dark: #154F45;
+            --teal-mid: #55A598;
+            --teal-pale: #EAF5F3;
+            --gold: #55A598;
+            --gold-light: #70B8AC;
+            --white: #FFFFFF;
+            --off-white: #F7F9F8;
+            --gray-100: #F0F4F2;
+            --gray-200: #D8E2DE;
+            --gray-400: #8FA89F;
+            --text-dark: #0E2420;
+            --text-mid: #2D4A43;
+            --text-light: #5E7A72;
+            --r-sm: 8px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-xl: 36px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased
+        }
+
+        /* ── PROGRESS BAR ── */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--teal-mid));
+            z-index: 9999;
+            width: 0;
+            border-radius: 0 2px 2px 0;
+            transition: width .1s linear
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: rgba(21, 79, 69, 0.97);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            height: 74px;
+            padding: 0 6%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none
+        }
+
+        .nav-logo-img {
+            height: 58px;
+            width: auto;
+            display: block;
+            filter: brightness(1.1);
+            transition: opacity .2s
+        }
+
+        .nav-logo-img:hover {
+            opacity: .85
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none
+        }
+
+        .nav-links a {
+            position: relative;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 1px;
+            transition: width .25s ease
+        }
+
+        .nav-links a:hover {
+            color: var(--white)
+        }
+
+        .nav-links a:hover::after {
+            width: 100%
+        }
+
+        .nav-links a.active {
+            color: var(--gold)
+        }
+
+        .nav-links a.active::after {
+            width: 100%
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .btn-ghost-sm {
+            padding: 8px 18px;
+            border-radius: var(--r-sm);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s
+        }
+
+        .btn-gold-sm {
+            padding: 9px 20px;
+            border-radius: var(--r-sm);
+            background: linear-gradient(90deg, var(--teal-mid), var(--gold-light));
+            color: var(--white);
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+            box-shadow: 0 4px 16px rgba(85, 165, 152, 0.3)
+        }
+
+        .btn-gold-sm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(85, 165, 152, 0.4)
+        }
+
+        /* ── Mobile Menu Toggle ── */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001
+        }
+
+        .mobile-menu-btn span {
+            width: 100%;
+            height: 2px;
+            background-color: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg)
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg)
+        }
+
+        .mobile-drawer-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(14, 36, 32, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease
+        }
+
+        .mobile-drawer-overlay.active {
+            opacity: 1;
+            pointer-events: auto
+        }
+
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100vh;
+            background: rgba(21, 79, 69, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 30px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transition: right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.25)
+        }
+
+        .mobile-drawer.active {
+            right: 0
+        }
+
+        .drawer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 20px
+        }
+
+        .drawer-logo img {
+            height: 48px;
+            width: auto
+        }
+
+        .drawer-close {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 36px;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.2s
+        }
+
+        .drawer-close:hover {
+            color: var(--gold)
+        }
+
+        .drawer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 24px
+        }
+
+        .drawer-links a {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.25s, padding-left 0.25s;
+            display: block
+        }
+
+        .drawer-links a:hover {
+            color: var(--gold);
+            padding-left: 8px
+        }
+
+        .drawer-actions {
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px
+        }
+
+        body.drawer-open {
+            overflow: hidden
+        }
+
+        @media(max-width:991px) {
+            .mobile-menu-btn {
+                display: flex
+            }
+
+            .nav-links {
+                display: none
+            }
+        }
+
+        /* ── HERO ── */
+        .lhero {
+            padding: 130px 6% 100px;
+            background: var(--teal-dark);
+            position: relative;
+            overflow: hidden
+        }
+
+        .lhero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+            background-size: 36px 36px
+        }
+
+        .lhero-glow {
+            position: absolute;
+            top: -200px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(85, 165, 152, 0.14) 0%, transparent 65%);
+            pointer-events: none
+        }
+
+        .lhero::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--off-white);
+            clip-path: polygon(0 100%, 100% 100%, 100% 0%, 0 100%)
+        }
+
+        .lhero-inner {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+            text-align: center;
+            margin: 0 auto
+        }
+
+        .lhero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(85, 165, 152, 0.15);
+            border: 1px solid rgba(85, 165, 152, 0.35);
+            border-radius: 100px;
+            padding: 7px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 22px
+        }
+
+        .lhero-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(38px, 6vw, 64px);
+            font-weight: 900;
+            color: var(--white);
+            text-transform: uppercase;
+            letter-spacing: 0.01em;
+            line-height: 1.05;
+            margin-bottom: 18px
+        }
+
+        .lhero-title .gld {
+            color: var(--gold)
+        }
+
+        .lhero-sub {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.62);
+            line-height: 1.7;
+            max-width: 560px;
+            margin: 0 auto 30px
+        }
+
+        .lhero-meta {
+            display: flex;
+            gap: 22px;
+            flex-wrap: wrap;
+            justify-content: center
+        }
+
+        .lhero-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5)
+        }
+
+        .lhero-meta-item strong {
+            color: rgba(255, 255, 255, 0.82);
+            font-weight: 600
+        }
+
+        /* ── SECTION HEADER ── */
+        .s-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 10px
+        }
+
+        .s-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 900;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1.1;
+            margin-bottom: 10px
+        }
+
+        .s-title .gld {
+            color: var(--gold)
+        }
+
+        .s-desc {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.65
+        }
+
+        .s-hdr.ctr {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto 64px
+        }
+
+        /* ── GUIDE TIMELINE ── */
+        .guide-sec {
+            padding: 96px 6% 120px;
+            background: var(--off-white);
+            position: relative
+        }
+
+        .guide-timeline {
+            position: relative;
+            max-width: 1180px;
+            margin: 0 auto
+        }
+
+        .guide-track {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: visible
+        }
+
+        .guide-track path {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 2;
+            stroke-linecap: round;
+            opacity: .55
+        }
+
+        .guide-track circle {
+            fill: var(--white);
+            stroke: var(--gold);
+            stroke-width: 2.5
+        }
+
+        .guide-item {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            padding: 52px 0
+        }
+
+        .guide-item:nth-child(even) .gd-media {
+            order: 2
+        }
+
+        .guide-item:nth-child(even) .gd-text {
+            order: 1
+        }
+
+        .gd-media {
+            order: 1
+        }
+
+        .gd-text {
+            order: 2
+        }
+
+        .gd-video-frame {
+            position: relative;
+            border-radius: var(--r-lg);
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            box-shadow: 0 22px 50px rgba(14, 36, 32, 0.18);
+            border: 1px solid var(--gray-200)
+        }
+
+        .gd-video-el {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            background: #000
+        }
+
+        .gd-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(28, 107, 94, .92), rgba(21, 79, 69, .96));
+            transition: opacity .4s ease
+        }
+
+        .gd-placeholder.hidden {
+            opacity: 0;
+            pointer-events: none
+        }
+
+        .gd-play {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 18px
+        }
+
+        .gd-placeholder span {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            letter-spacing: .01em
+        }
+
+        .gd-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 62px;
+            font-weight: 900;
+            color: var(--teal-pale);
+            line-height: 1;
+            margin-bottom: 4px
+        }
+
+        .gd-eyebrow {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 12px
+        }
+
+        .gd-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(22px, 2.6vw, 30px);
+            font-weight: 900;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1.15;
+            margin-bottom: 14px
+        }
+
+        .gd-desc {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.75
+        }
+
+        /* Mobile fallback line (no SVG) */
+        @media(max-width:900px) {
+            .guide-track {
+                display: none
+            }
+
+            .guide-item {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                padding: 0 0 40px 26px;
+                position: relative
+            }
+
+            .guide-item:nth-child(even) .gd-media,
+            .guide-item:nth-child(even) .gd-text {
+                order: initial
+            }
+
+            .guide-item::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 6px;
+                bottom: -12px;
+                width: 2px;
+                background-image: repeating-linear-gradient(to bottom, var(--gold) 0, var(--gold) 6px, transparent 6px, transparent 12px)
+            }
+
+            .guide-item:last-child::before {
+                display: none
+            }
+
+            .guide-item::after {
+                content: '';
+                position: absolute;
+                left: -4px;
+                top: 2px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: var(--white);
+                border: 2.5px solid var(--gold)
+            }
+
+            .gd-num {
+                font-size: 42px
+            }
+        }
+
+        /* ══════════════════════════════════════
+           ANIMATION SYSTEM (consistent with the
+           rest of the site: fade-up on load for
+           hero, scroll-reveal for sections)
+        ══════════════════════════════════════ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(36px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .fu {
+            opacity: 0;
+            animation: fadeUp .9s cubic-bezier(.22, 1, .36, 1) forwards
+        }
+
+        .d1 {
+            animation-delay: .15s
+        }
+
+        .d2 {
+            animation-delay: .32s
+        }
+
+        .d3 {
+            animation-delay: .5s
+        }
+
+        .d4 {
+            animation-delay: .68s
+        }
+
+        [data-anim] {
+            opacity: 0;
+            will-change: opacity, transform;
+            transition: opacity .9s cubic-bezier(.22, 1, .36, 1), transform .9s cubic-bezier(.22, 1, .36, 1)
+        }
+
+        [data-anim="up"] {
+            transform: translateY(50px)
+        }
+
+        [data-anim].visible {
+            opacity: 1;
+            transform: none
+        }
+
+        [data-stagger]>* {
+            opacity: 0;
+            transform: translateY(40px) scale(.97);
+            transition: opacity .8s cubic-bezier(.22, 1, .36, 1), transform .8s cubic-bezier(.22, 1, .36, 1)
+        }
+
+        [data-stagger].visible>*:nth-child(1) {
+            opacity: 1;
+            transform: none;
+            transition-delay: 0s
+        }
+
+        [data-stagger].visible>*:nth-child(2) {
+            opacity: 1;
+            transform: none;
+            transition-delay: .16s
+        }
+
+        /* ── Video frame micro-interaction ── */
+        .gd-video-frame {
+            transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s cubic-bezier(.22, 1, .36, 1)
+        }
+
+        .gd-video-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 28px 60px rgba(14, 36, 32, 0.24)
+        }
+
+        @keyframes playPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, .22)
+            }
+
+            50% {
+                box-shadow: 0 0 0 12px rgba(255, 255, 255, 0)
+            }
+        }
+
+        .gd-play {
+            animation: playPulse 2.6s ease-in-out infinite
+        }
+
+        /* ── SVG line: soft draw-in + dot pop as you scroll ── */
+        .guide-track path {
+            transition: stroke-dashoffset .1s linear
+        }
+
+        .guide-track circle {
+            opacity: 0;
+            transform: scale(.4);
+            transform-box: fill-box;
+            transform-origin: center;
+            transition: opacity .5s cubic-bezier(.22, 1, .36, 1), transform .5s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        .guide-track circle.revealed {
+            opacity: 1;
+            transform: scale(1)
+        }
+
+        @media(prefers-reduced-motion: reduce) {
+
+            .fu,
+            [data-anim],
+            [data-stagger]>* {
+                animation: none !important;
+                transition: none !important;
+                opacity: 1 !important;
+                transform: none !important
+            }
+
+            .gd-play {
+                animation: none
+            }
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--teal-dark);
+            padding: 64px 6% 32px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06)
+        }
+
+        .ft-top {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px
+        }
+
+        .ft-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.38);
+            line-height: 1.6;
+            max-width: 260px;
+            margin-bottom: 20px
+        }
+
+        .ft-socials {
+            display: flex;
+            gap: 8px
+        }
+
+        .soc {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.55);
+            transition: all .2s
+        }
+
+        .soc:hover {
+            background: rgba(255, 255, 255, 0.14);
+            color: var(--white)
+        }
+
+        .ft-col-t {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.38);
+            margin-bottom: 16px
+        }
+
+        .ft-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+
+        .ft-col ul a {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.52);
+            text-decoration: none;
+            transition: color .2s
+        }
+
+        .ft-col ul a:hover {
+            color: var(--white)
+        }
+
+        .ft-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .ft-bottom p {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.24)
+        }
+
+        .ft-incub {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.28)
+        }
+
+        .ft-incub strong {
+            color: var(--gold)
+        }
+
+        /* ── BACK TO TOP ── */
+        .back-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--teal);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(21, 79, 69, 0.3);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all .25s;
+            pointer-events: none;
+            z-index: 300
+        }
+
+        .back-top.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto
+        }
+
+        .back-top:hover {
+            background: var(--teal-mid);
+            transform: translateY(-2px)
+        }
+
+        @media(max-width:1024px) {
+            .ft-top {
+                grid-template-columns: 1fr 1fr
+            }
+        }
+
+        @media(max-width:640px) {
+            .ft-top {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body>
+
+    <!-- Scroll progress bar -->
+    <div id="progress-bar"></div>
+
+    <!-- NAV -->
+    <nav>
+        <a href="index.html" class="nav-logo"><img src="assets/images/logo.png" alt="Mentora School"
+                class="nav-logo-img"></a>
+        <ul class="nav-links">
+            <li><a href="index.html#about">À propos</a></li>
+            <li><a href="index.html#solution">Solution</a></li>
+            <li><a href="index.html#features">Fonctionnalités</a></li>
+            <li><a href="index.html#pricing">Tarifs</a></li>
+            <li><a href="guide.html" class="active">Guide vidéo</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="https://school.mentoragroupe.com/auth/login" class="btn-gold-sm">Connexion</a>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+    <div class="mobile-drawer" id="mobile-drawer">
+        <div class="drawer-header">
+            <a href="index.html" class="drawer-logo"><img src="assets/images/logo.png" alt="Mentora School"
+                    class="nav-logo-img"></a>
+            <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+        </div>
+        <ul class="drawer-links">
+            <li><a href="index.html#about">À propos</a></li>
+            <li><a href="index.html#solution">Solution</a></li>
+            <li><a href="index.html#features">Fonctionnalités</a></li>
+            <li><a href="index.html#pricing">Tarifs</a></li>
+            <li><a href="guide.html">Guide vidéo</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="drawer-actions">
+            <a href="https://school.mentoragroupe.com/auth/login" class="btn-gold-sm"
+                style="display:block;text-align:center">Connexion</a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="lhero">
+        <div class="lhero-grid"></div>
+        <div class="lhero-glow"></div>
+        <div class="lhero-inner">
+            <div class="lhero-badge fu d1">🎬 Ressources & Tutoriels</div>
+            <h1 class="lhero-title fu d2">Découvrez Mentora School<br><span class="gld">en vidéo</span></h1>
+            <p class="lhero-sub fu d3">Cinq vidéos pour comprendre, en quelques minutes, comment Mentora School
+                transforme la gestion de votre établissement — de l'administration jusqu'à l'élève.</p>
+            <div class="lhero-meta fu d4">
+                <div class="lhero-meta-item">🎥 <strong>5 vidéos</strong></div>
+                <div class="lhero-meta-item">🕒 <strong>~15 min</strong> au total</div>
+                <div class="lhero-meta-item">🌐 <strong>En ligne & hors-ligne</strong></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GUIDE TIMELINE -->
+    <section class="guide-sec">
+        <div class="s-hdr ctr" data-anim="up">
+            <div class="s-eyebrow">Guide pas à pas</div>
+            <h2 class="s-title">TOUT L'ÉCOSYSTÈME <span class="gld">EXPLIQUÉ EN VIDÉO</span></h2>
+            <p class="s-desc">Chaque module de Mentora School présenté simplement, avec une vidéo dédiée et une
+                explication claire de ce que vous allez découvrir.</p>
+        </div>
+
+        <div class="guide-timeline" id="guideTimeline">
+            <svg class="guide-track" id="guideSvg"></svg>
+
+            <div class="guide-item" data-video-key="overview" data-stagger>
+                <div class="gd-media">
+                    <div class="gd-video-frame">
+                        <video class="gd-video-el" id="video-overview" controls preload="none" playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="gd-placeholder">
+                            <div class="gd-play">▶</div>
+                            <span>Vidéo bientôt disponible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-text">
+                    <div class="gd-num">01</div>
+                    <div class="gd-eyebrow">Vue d'ensemble</div>
+                    <h3 class="gd-title">Découvrez l'écosystème Mentora en une vidéo</h3>
+                    <p class="gd-desc">Un tour complet de la plateforme : système d'administration, application
+                        enseignant, application parent et application élève réunis dans un seul écosystème pensé
+                        pour simplifier la vie de votre établissement.</p>
+                </div>
+            </div>
+
+            <div class="guide-item" data-video-key="admin" data-stagger>
+                <div class="gd-media">
+                    <div class="gd-video-frame">
+                        <video class="gd-video-el" id="video-admin" controls preload="none" playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="gd-placeholder">
+                            <div class="gd-play">▶</div>
+                            <span>Vidéo bientôt disponible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-text">
+                    <div class="gd-num">02</div>
+                    <div class="gd-eyebrow">Administration</div>
+                    <h3 class="gd-title">Pilotez votre établissement de bout en bout</h3>
+                    <p class="gd-desc">Inscriptions, emplois du temps, finances et communication : suivez comment
+                        l'équipe de direction gère l'ensemble de l'école depuis un tableau de bord unique et
+                        intelligent.</p>
+                </div>
+            </div>
+
+            <div class="guide-item" data-video-key="teacher" data-stagger>
+                <div class="gd-media">
+                    <div class="gd-video-frame">
+                        <video class="gd-video-el" id="video-teacher" controls preload="none" playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="gd-placeholder">
+                            <div class="gd-play">▶</div>
+                            <span>Vidéo bientôt disponible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-text">
+                    <div class="gd-num">03</div>
+                    <div class="gd-eyebrow">Enseignants</div>
+                    <h3 class="gd-title">Enseignez, corrigez et suivez vos classes plus vite</h3>
+                    <p class="gd-desc">Cette vidéo montre comment les enseignants publient des devoirs, prennent les
+                        présences en quelques secondes et partagent leurs supports de cours, en ligne comme
+                        hors-ligne.</p>
+                </div>
+            </div>
+
+            <div class="guide-item" data-video-key="parent" data-stagger>
+                <div class="gd-media">
+                    <div class="gd-video-frame">
+                        <video class="gd-video-el" id="video-parent" controls preload="none" playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="gd-placeholder">
+                            <div class="gd-play">▶</div>
+                            <span>Vidéo bientôt disponible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-text">
+                    <div class="gd-num">04</div>
+                    <div class="gd-eyebrow">Parents</div>
+                    <h3 class="gd-title">Restez connecté à la réussite de votre enfant</h3>
+                    <p class="gd-desc">Suivi des notes en temps réel, position du bus scolaire et messagerie directe
+                        avec les enseignants : découvrez comment les parents gardent un œil sur le parcours de leur
+                        enfant, où qu'ils soient.</p>
+                </div>
+            </div>
+
+            <div class="guide-item" data-video-key="student" data-stagger>
+                <div class="gd-media">
+                    <div class="gd-video-frame">
+                        <video class="gd-video-el" id="video-student" controls preload="none" playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                        <div class="gd-placeholder">
+                            <div class="gd-play">▶</div>
+                            <span>Vidéo bientôt disponible</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="gd-text">
+                    <div class="gd-num">05</div>
+                    <div class="gd-eyebrow">Élèves</div>
+                    <h3 class="gd-title">Apprenez à votre rythme, avec l'IA à vos côtés</h3>
+                    <p class="gd-desc">Cours, quiz adaptatifs, médiathèque et suivi de progression : cette vidéo
+                        présente l'espace élève conçu pour motiver chaque apprenant à donner le meilleur de
+                        lui-même.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="ft-top">
+            <div>
+                <a href="index.html"><img src="assets/images/logo.png" alt="Mentora School"
+                        style="height:36px;width:auto;filter:brightness(1.2);display:block;margin-bottom:6px"></a>
+                <p class="ft-desc">Un écosystème éducatif intelligent, intégré et résilient pour tous les
+                    établissements scolaires marocains.</p>
+                <div class="ft-socials">
+                    <a href="https://www.tiktok.com/@mentora.school.maroc" class="soc">t</a>
+                    <a href="https://www.facebook.com/profile.php?id=61590571383790&mibextid=wwXIfr&mibextid=wwXIfr"
+                        class="soc">f</a>
+                    <a href="https://www.youtube.com/@MentoraSchoolMaroc" class="soc">y</a>
+                    <a href="https://www.instagram.com/mentoraschool.maroc?igsh=MWJldDF0MmpqM2ppMQ==" class="soc">i</a>
+                </div>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Plateforme</div>
+                <ul>
+                    <li><a href="index.html#about">Administration</a></li>
+                    <li><a href="index.html#about">Enseignants</a></li>
+                    <li><a href="index.html#about">Parents</a></li>
+                    <li><a href="index.html#about">Élèves</a></li>
+                    <li><a href="index.html#about">Application Desktop</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Ressources</div>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="guide.html">Tutoriels vidéo</a></li>
+                    <li><a href="#">Support technique</a></li>
+                    <li><a href="index.html#pricing">Tarifs</a></li>
+                </ul>
+            </div>
+            <div class="ft-col">
+                <div class="ft-col-t">Légal</div>
+                <ul>
+                    <li><a href="cgv.html">CGV</a></li>
+                    <li><a href="data-protection.html">Protection des données</a></li>
+                    <li><a href="mentions-legales.html">Mentions légales</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="ft-bottom">
+            <p>© 2025 Mentora School · Tribunaux de Commerce du Maroc · Loi n° 09-08</p>
+            <div class="ft-incub">Soutenu & incubé par <strong>HB DEVELOPMENT</strong></div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="Retour en haut">↑</button>
+
+    <script>
+        /* ── Scroll progress bar ── */
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            progressBar.style.width = (maxScroll > 0 ? scrolled / maxScroll * 100 : 0) + '%';
+        });
+
+        /* ── Back to top ── */
+        const backTop = document.getElementById('back-top');
+        window.addEventListener('scroll', () => {
+            backTop.classList.toggle('show', window.scrollY > 400);
+        });
+        backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+        /* ── Mobile menu & drawer ── */
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+        const mobileDrawerOverlay = document.getElementById('mobile-drawer-overlay');
+        const drawerClose = document.getElementById('drawer-close');
+        const drawerLinks = document.querySelectorAll('.drawer-links a');
+
+        function toggleDrawer() {
+            const isOpen = mobileDrawer.classList.toggle('active');
+            mobileMenuBtn.classList.toggle('active', isOpen);
+            mobileDrawerOverlay.classList.toggle('active', isOpen);
+            document.body.classList.toggle('drawer-open', isOpen);
+        }
+        function closeDrawer() {
+            mobileDrawer.classList.remove('active');
+            mobileMenuBtn.classList.remove('active');
+            mobileDrawerOverlay.classList.remove('active');
+            document.body.classList.remove('drawer-open');
+        }
+        mobileMenuBtn?.addEventListener('click', toggleDrawer);
+        drawerClose?.addEventListener('click', closeDrawer);
+        mobileDrawerOverlay?.addEventListener('click', closeDrawer);
+        drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
+
+        /* ── Scroll-reveal: hero-less sections + staggered item pairs ── */
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                el.classList.add('visible');
+                const idx = el.dataset.idx;
+                if (idx !== undefined) {
+                    const dot = document.querySelector(`.gd-dot[data-idx="${idx}"]`);
+                    dot?.classList.add('revealed');
+                }
+                revealObserver.unobserve(el);
+            });
+        }, { threshold: 0.22, rootMargin: '0px 0px -40px 0px' });
+
+        document.querySelectorAll('.guide-item').forEach((el, i) => {
+            el.dataset.idx = i;
+        });
+        document.querySelectorAll('[data-anim],[data-stagger]').forEach(el => {
+            revealObserver.observe(el);
+        });
+
+        /* ══════════════════════════════════════════════
+           WAVY TIMELINE LINE — draws a smooth curve that
+           weaves left/right through each .guide-item, with
+           a dot marker at every item's anchor point. The
+           line also "draws itself" progressively as the
+           section scrolls into view (subtle, doesn't change
+           the overall shape/look — just adds a bit of life).
+           Rebuilds on resize / content changes.
+        ══════════════════════════════════════════════ */
+        function catmullRomPath(points) {
+            if (points.length < 2) return '';
+            let d = `M${points[0].x},${points[0].y}`;
+            for (let i = 0; i < points.length - 1; i++) {
+                const p0 = points[i - 1] || points[i];
+                const p1 = points[i];
+                const p2 = points[i + 1];
+                const p3 = points[i + 2] || p2;
+                const cp1x = p1.x + (p2.x - p0.x) / 6;
+                const cp1y = p1.y + (p2.y - p0.y) / 6;
+                const cp2x = p2.x - (p3.x - p1.x) / 6;
+                const cp2y = p2.y - (p3.y - p1.y) / 6;
+                d += ` C${cp1x},${cp1y} ${cp2x},${cp2y} ${p2.x},${p2.y}`;
+            }
+            return d;
+        }
+
+        function buildGuidePath() {
+            const wrap = document.getElementById('guideTimeline');
+            const svg = document.getElementById('guideSvg');
+            if (!wrap || !svg) return;
+            if (window.innerWidth <= 900) { svg.innerHTML = ''; return; }
+
+            const items = Array.from(wrap.querySelectorAll('.guide-item'));
+            if (!items.length) return;
+
+            const wrapRect = wrap.getBoundingClientRect();
+            const w = wrap.clientWidth;
+            const h = wrap.scrollHeight;
+            if (!w || !h) return;
+
+            svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+
+            const xLeft = w * 0.5 - w * 0.16;
+            const xRight = w * 0.5 + w * 0.16;
+
+            const points = [{ x: w / 2, y: 0 }];
+            items.forEach((item, i) => {
+                const r = item.getBoundingClientRect();
+                const midY = (r.top - wrapRect.top) + r.height / 2;
+                points.push({ x: i % 2 === 0 ? xRight : xLeft, y: midY });
+            });
+            points.push({ x: w / 2, y: h });
+
+            const d = catmullRomPath(points);
+            let markup = `
+                <defs>
+                    <linearGradient id="guideGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="var(--teal-mid)"></stop>
+                        <stop offset="100%" stop-color="var(--gold-light)"></stop>
+                    </linearGradient>
+                </defs>
+                <path d="${d}" stroke="url(#guideGrad)"></path>`;
+            points.slice(1, -1).forEach((p, i) => {
+                markup += `<circle class="gd-dot" data-idx="${i}" cx="${p.x}" cy="${p.y}" r="6"></circle>`;
+            });
+            svg.innerHTML = markup;
+
+            const path = svg.querySelector('path');
+            if (path) {
+                const len = path.getTotalLength();
+                path.style.strokeDasharray = `${len} ${len}`;
+                path.dataset.len = len;
+                updateGuideProgress();
+            }
+        }
+
+        function updateGuideProgress() {
+            const wrap = document.getElementById('guideTimeline');
+            const path = document.querySelector('#guideSvg path');
+            if (!wrap || !path || !path.dataset.len) return;
+            const len = parseFloat(path.dataset.len);
+            const rect = wrap.getBoundingClientRect();
+            const vh = window.innerHeight;
+            const start = vh * 0.85;
+            const end = -rect.height + vh * 0.35;
+            const raw = (start - rect.top) / (start - end || 1);
+            const progress = Math.min(1, Math.max(0, raw));
+            path.style.strokeDashoffset = len * (1 - progress);
+        }
+
+        let guideRaf = null;
+        function scheduleBuildGuidePath() {
+            if (guideRaf) cancelAnimationFrame(guideRaf);
+            guideRaf = requestAnimationFrame(buildGuidePath);
+        }
+
+        let guideScrollRaf = null;
+        function scheduleUpdateGuideProgress() {
+            if (guideScrollRaf) return;
+            guideScrollRaf = requestAnimationFrame(() => {
+                updateGuideProgress();
+                guideScrollRaf = null;
+            });
+        }
+
+        window.addEventListener('load', scheduleBuildGuidePath);
+        window.addEventListener('resize', scheduleBuildGuidePath);
+        window.addEventListener('scroll', scheduleUpdateGuideProgress, { passive: true });
+        document.addEventListener('DOMContentLoaded', scheduleBuildGuidePath);
+
+        const guideTimelineEl = document.getElementById('guideTimeline');
+        if (guideTimelineEl && window.ResizeObserver) {
+            new ResizeObserver(scheduleBuildGuidePath).observe(guideTimelineEl);
+        }
+
+        /* ══════════════════════════════════════════════
+           VIDEO SOURCE — plug the Super Admin API endpoint
+           below once available. Expected response: an array
+           of objects, each with a title/name (e.g. "OVERVIEW",
+           "TEACHER", "PARENT", "STUDENT", "ADMIN") and a video
+           URL field (url / videoUrl / src / link / path).
+           Matching is done by keyword, not exact field names,
+           so it stays flexible until the real payload shape
+           is confirmed.
+        ══════════════════════════════════════════════ */
+        const GUIDE_VIDEOS_ENDPOINT = 'https://api.eduai.tech/api/v1/landing-page/public/all_videos';
+
+        const GUIDE_KEY_ALIASES = {
+            overview: ['overview', 'apercu', 'aperçu', 'ensemble'],
+            admin: ['admin', 'administration', 'super admin'],
+            teacher: ['teacher', 'enseignant', 'professeur', 'prof'],
+            parent: ['parent'],
+            student: ['student', 'eleve', 'élève', 'etudiant', 'étudiant']
+        };
+
+        function normalize(str) {
+            return (str || '')
+                .toString()
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[̀-ͯ]/g, '');
+        }
+
+        function matchGuideKey(label) {
+            const n = normalize(label);
+            return Object.keys(GUIDE_KEY_ALIASES).find(key =>
+                GUIDE_KEY_ALIASES[key].some(alias => n.includes(alias))
+            ) || null;
+        }
+
+        function extractVideoUrl(entry) {
+            const candidates = ['url', 'videoUrl', 'video_url', 'src', 'link', 'path', 'file', 'fileUrl'];
+            for (const field of candidates) {
+                if (entry[field]) return entry[field];
+            }
+            return null;
+        }
+
+        function extractTitle(entry) {
+            return entry.title || entry.name || entry.label || '';
+        }
+
+        function applyVideo(key, url) {
+            const video = document.getElementById(`video-${key}`);
+            if (!video || !url) return;
+            const source = video.querySelector('source');
+            source.setAttribute('src', url);
+            video.load();
+            const placeholder = video.parentElement.querySelector('.gd-placeholder');
+            placeholder?.classList.add('hidden');
+        }
+
+        async function loadGuideVideos() {
+            if (!GUIDE_VIDEOS_ENDPOINT) return;
+            try {
+                const res = await fetch(GUIDE_VIDEOS_ENDPOINT);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                const list = Array.isArray(data) ? data : (data.videos || data.data || []);
+                list.forEach(entry => {
+                    const key = matchGuideKey(extractTitle(entry));
+                    const url = extractVideoUrl(entry);
+                    if (key && url) applyVideo(key, url);
+                });
+            } catch (err) {
+                console.warn('Guide videos: could not load from endpoint.', err);
+            }
+        }
+
+        loadGuideVideos();
+    </script>
+</body>
+
+</html>
