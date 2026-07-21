@@ -155,22 +155,22 @@ jobs:
           # Replace the literal placeholder string '${NAMESPACE_PLACEHOLDER}' with the target namespace
           sed "s|\${NAMESPACE_PLACEHOLDER}|${K8S_NAMESPACE}|g" k8s/rolebinding.yaml | kubectl apply -f -
 
-      - name: Create or update GHCR imagePullSecret
-        env:
-          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
-          GHCR_PAT: ${{ secrets.GHCR_PAT }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          # Prefer explicit GHCR credentials if provided, otherwise fall back to GITHUB_TOKEN
-          GHCR_USER="${GHCR_USERNAME:-$GITHUB_ACTOR}"
-          GHCR_TOKEN="${GHCR_PAT:-$GITHUB_TOKEN}"
-          echo "Using GHCR user: ${GHCR_USER}"
-          kubectl -n "${K8S_NAMESPACE}" create secret docker-registry ghcr-secret \
-            --docker-server=ghcr.io \
-            --docker-username="${GHCR_USER}" \
-            --docker-password="${GHCR_TOKEN}" \
-            --docker-email=action@github.com \
-            --dry-run=client -o yaml | kubectl apply -f -
+      # - name: Create or update GHCR imagePullSecret
+      #   env:
+      #     GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+      #     GHCR_PAT: ${{ secrets.GHCR_PAT }}
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     # Prefer explicit GHCR credentials if provided, otherwise fall back to GITHUB_TOKEN
+      #     GHCR_USER="${GHCR_USERNAME:-$GITHUB_ACTOR}"
+      #     GHCR_TOKEN="${GHCR_PAT:-$GITHUB_TOKEN}"
+      #     echo "Using GHCR user: ${GHCR_USER}"
+      #     kubectl -n "${K8S_NAMESPACE}" create secret docker-registry ghcr-secret \
+      #       --docker-server=ghcr.io \
+      #       --docker-username="${GHCR_USER}" \
+      #       --docker-password="${GHCR_TOKEN}" \
+      #       --docker-email=action@github.com \
+      #       --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Apply Kubernetes manifests (replace image)
         run: |
